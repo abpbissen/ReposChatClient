@@ -22,7 +22,8 @@ namespace Chatten
     }
     public class Controller
     {
-       public LinqMailDataContext db = new LinqMailDataContext();
+        public LinqMailDataContext db = new LinqMailDataContext();
+        string hej = "hej";
         LoginResult r = new LoginResult();
         //Krypteret kode og mail
         public string strPassword = "";
