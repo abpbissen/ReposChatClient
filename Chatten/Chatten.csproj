@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Chat</ProductName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -73,8 +73,7 @@
     <ManifestKeyFile>Chatten_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>ChatKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -113,6 +112,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="ChatKey.pfx" />
     <None Include="LinqMail.dbml.layout">
       <DependentUpon>LinqMail.dbml</DependentUpon>
     </None>
@@ -164,6 +164,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MailFile.xml" />
+    <Content Include="MailFileCrypt.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

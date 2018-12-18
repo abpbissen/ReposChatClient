@@ -6,16 +6,20 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Chatten
 {
     public class LoginResult:Form
     {
+        //Auto properties
         public bool Mode { get; set; }
         public string LoginUser { get; set; }
         public int LoginId { get; set; }
@@ -34,6 +38,44 @@ namespace Chatten
         public const int bytePermutation3 = 0x17;
         public const int bytePermutation4 = 0x41;
 
+        public async Task Mailorder(string from, string pass, string to, string subject, string mailbody, Label errLbl, bool cb)
+        {
+            //unik appdomain instans til hver tråd
+            //AppDomain domain = AppDomain.CreateDomain(string.Concat(DStr));
+            //Mail server
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
+            SmtpServer.EnableSsl = true;
+            SmtpServer.UseDefaultCredentials = false;
+            SmtpServer.Credentials = new NetworkCredential(from, pass);
+            try
+            {
+                using (SmtpServer)
+                {
+                    await SmtpServer.SendMailAsync(from, to, subject, mailbody);
+                }
+                if (cb)
+                {
+                    //HttpRuntime klassen bruges til at finde xml fil, uden brug af systemets stifinder(C:\)
+                    string MailFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MailFile.xml");
+                    string MailFilePathCrypt = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MailFileCrypt.xml");
+
+                    //Linq to xml
+                    XElement newElement = new XElement("Message",
+                    new XElement("Mail_Body", mailbody));
+                    IEnumerable<XElement> LinqMail = from x in newElement.Descendants() select x;
+                    newElement.Save(MailFilePath);
+
+                    strMail = Encrypt(mailbody);
+
+                    XElement newElementCrypt = new XElement("Message", new XElement("Mail_Body", strMail));
+                    newElementCrypt.Save(MailFilePathCrypt);
+                }
+            }
+            catch (SmtpException)
+            {
+                errLbl.Text = "Incorrect Password!";
+            }
+        }
         //Linq 
         public ctTbl EntityctTbl(string besked, string navn, string email)
         {
@@ -87,7 +129,24 @@ namespace Chatten
             }
             return insertLogin;
         }
-        public LoginResult LoginGruppe(string Name, string password)
+        public MailBesked EntityMail(string fra, string brugermail, string besked)
+        {
+            MailBesked insertMail = new MailBesked { Fra = fra, Besked = besked, BrugerMail = brugermail };
+            //Tilføj den nye TEntity til ctTbls kollektionen
+            db.MailBeskeds.InsertOnSubmit(insertMail);
+            //Prøver at tilføje ændringer
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception)
+            {
+                //prøv igen
+                db.SubmitChanges();
+            }
+            return insertMail;
+        }
+            public LoginResult LoginGruppe(string Name, string password)
         {
             var logonBruger =
             (from x in db.Logins where x.Name == Name && x.Password == Encrypt(password) select x).FirstOrDefault();

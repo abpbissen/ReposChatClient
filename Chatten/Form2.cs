@@ -21,6 +21,7 @@ namespace Chatten
         public Form2()
         {
             InitializeComponent();
+            //Sætter password boxes til password karakterer
             textBox4.UseSystemPasswordChar = true;
             textBox2.UseSystemPasswordChar = true;
             Visibility(false);
@@ -78,13 +79,12 @@ namespace Chatten
         }
 
     }
-    public class OtherProgram : MarshalByRefObject
+    public class Program2 : MarshalByRefObject
     {
         public void Main(string[] args, Label L)
         {
-
             foreach (var item in args)
-                L.Text = $" {item} and is executed from this domain: {AppDomain.CurrentDomain.FriendlyName}";
+                L.Text = $"{item} and is executed from this domain: {AppDomain.CurrentDomain.FriendlyName}";
         }
     }
 }
