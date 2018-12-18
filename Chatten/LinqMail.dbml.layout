@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LinqMail">
+  <DataContextMoniker Name="/LinqMailDataContext" />
+  <nestedChildShapes>
+    <classShape Id="980e2d7d-5b34-44ef-83a2-b015278df4ad" absoluteBounds="5.5, 2.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/LinqMailDataContext/MailBesked" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a3905e3e-4a54-48ae-9c5b-238989c48cb7" absoluteBounds="5.515, 3.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d266011f-a552-462b-b9e1-dba42ad8d983" absoluteBounds="2.5, 4.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/LinqMailDataContext/Login" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dde9aa82-98f9-48bb-a610-193d7396db78" absoluteBounds="2.5149999999999997, 4.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="725ad7fb-63d7-4ef4-85d5-355c8ec57524" absoluteBounds="2.375, 2, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/LinqMailDataContext/ctTbl" />
+      <nestedChildShapes>
+        <elementListCompartment Id="62eda7f9-646c-4a70-a1a6-bb4466fee19f" absoluteBounds="2.39, 2.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
