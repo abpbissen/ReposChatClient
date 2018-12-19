@@ -57,14 +57,14 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 44);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1011, 341);
+            this.dataGridView1.Size = new System.Drawing.Size(997, 341);
             this.dataGridView1.TabIndex = 0;
             // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(12, 405);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1011, 20);
+            this.textBox1.Size = new System.Drawing.Size(997, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TextBox1_PreviewKeyDown);
             // 
@@ -97,9 +97,9 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(598, 485);
+            this.dataGridView2.Location = new System.Drawing.Point(645, 483);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(425, 242);
+            this.dataGridView2.Size = new System.Drawing.Size(364, 242);
             this.dataGridView2.TabIndex = 4;
             // 
             // checkBox1
@@ -128,7 +128,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(12, 542);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(144, 20);
             this.textBox2.TabIndex = 7;
             // 
             // label3
@@ -144,7 +144,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(12, 503);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.Size = new System.Drawing.Size(144, 20);
             this.textBox3.TabIndex = 9;
             // 
             // label4
@@ -169,7 +169,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(119, 544);
+            this.checkBox3.Location = new System.Drawing.Point(162, 545);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(113, 17);
             this.checkBox3.TabIndex = 12;
@@ -181,7 +181,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1035, 739);
+            this.ClientSize = new System.Drawing.Size(1021, 739);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);

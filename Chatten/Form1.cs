@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,6 +28,7 @@ namespace Chatten
         public Form1(Form ParentForm, string u)
         {
            InitializeComponent();
+      
            textBox3.UseSystemPasswordChar = true;
            dataGridView2.Visible = false;
            label5.Visible = false;
@@ -61,6 +63,7 @@ namespace Chatten
                     {
                         await Task.Run(() => ParentForm);
                         c.EntityctTbl(textBox1.Text, userName, q.FirstOrDefault());
+                        c.TraceOut(textBox1.Text);
                         textBox1.Text = "";
                     }
                     else

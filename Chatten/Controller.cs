@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-
+using System.Configuration;
 namespace Chatten
 {
     public class LoginResult:Form
@@ -40,8 +41,6 @@ namespace Chatten
 
         public async Task Mailorder(string from, string pass, string to, string subject, string mailbody, Label errLbl, bool cb)
         {
-            //unik appdomain instans til hver tråd
-            //AppDomain domain = AppDomain.CreateDomain(string.Concat(DStr));
             //Mail server
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
             SmtpServer.EnableSsl = true;
@@ -163,6 +162,21 @@ namespace Chatten
                 r.LoginId = 0;
             }
             return r;
+        }
+        //string metode til sprogvalg
+        public string LangChoice(string sprog)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(ConfigurationManager.AppSettings[sprog]);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(ConfigurationManager.AppSettings[sprog]);
+            return sprog;
+        }
+        public string TraceOut(string outStr)
+        {
+            Trace.Listeners.Add(new TextWriterTraceListener("TextWriterOutput.log", "myListener"));
+            Trace.TraceInformation(outStr);
+            Trace.Flush();
+            
+            return outStr;
         }
         //Kryptering
         public string Encrypt(string strData)

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,10 +20,13 @@ namespace Chatten
         LinqMailDataContext db = new LinqMailDataContext();
         Controller c = new Controller();
         LoginResult r = new LoginResult();
-
+        Process UDPProcess = new Process();
         public Form2()
         {
             InitializeComponent();
+         
+            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
+            //Thread.CurrentThread.CurrentUICulture = label1.Text;
             //Sætter password boxes til password karakterer
             textBox4.UseSystemPasswordChar = true;
             textBox2.UseSystemPasswordChar = true;
@@ -57,9 +63,15 @@ namespace Chatten
             
         }
 
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            UDPProcess.StartInfo.FileName = @"C:\Users\ABP\Desktop\UDPChat.appref-ms";
+            UDPProcess.Start();
+        }
         public bool Visibility(bool b)
         {
-            if(b)
+            if (b)
             {
                 textBox5.Visible = true;
                 textBox4.Visible = true;
@@ -78,7 +90,21 @@ namespace Chatten
             return b;
         }
 
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+                c.LangChoice(radioButton2.Text);
+            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+                c.LangChoice(radioButton1.Text);
+            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
+        }
     }
+
     public class Program2 : MarshalByRefObject
     {
         public void Main(string[] args, Label L)
