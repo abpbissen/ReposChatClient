@@ -5,15 +5,14 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace Chatten
 {
-    
     public partial class Form2 : Form
     {
         //Objekter
@@ -24,52 +23,71 @@ namespace Chatten
         public Form2()
         {
             InitializeComponent();
-         
-            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
-            //Thread.CurrentThread.CurrentUICulture = label1.Text;
+            ActiveControl = textBox1;
             //Sætter password boxes til password karakterer
             textBox4.UseSystemPasswordChar = true;
             textBox2.UseSystemPasswordChar = true;
-            Visibility(false);
+            VisibilityF2(false);
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            r = c.LoginGruppe(textBox1.Text, textBox2.Text);
+            r = c.LoginGruppe(textBox1.Text, textBox2.Text, label4);
             if (r.Mode)
             {
                 Form1 f1 = new Form1(this, textBox1.Text);
                 textBox1.Text = r.LoginUser;
                 f1.Show();
                 Hide();
-               
             }
             else
             {
-                label1.Text = "error";
+                label4.Text = "Login failed!";
             }
         }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Visibility(true);
-            
+            VisibilityF2(true);
+            label4.Text = "";
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            c.EntityLogin(textBox5.Text, textBox4.Text, textBox3.Text);
-            label1.Text = "Bruger oprettet";
-            Visibility(false);
-            
+            if (label4.Text != "Failed to create user!")
+            {
+                c.EntityLogin(textBox5.Text, textBox4.Text, textBox3.Text, label4);
+                VisibilityF2(true);
+            }
+            else
+            {
+                c.EntityLogin("", "", "", label4);
+                VisibilityF2(false);
+            }
         }
-
-
         private void button3_Click(object sender, EventArgs e)
         {
-            UDPProcess.StartInfo.FileName = @"C:\Users\ABP\Desktop\UDPChat.appref-ms";
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            UDPProcess.StartInfo.FileName = Path.Combine(path, "UDPChat.appref-ms");
             UDPProcess.Start();
         }
-        public bool Visibility(bool b)
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+                c.LangChoice(radioButton2.Text);
+            label3.Text = $"Current language: {Thread.CurrentThread.CurrentCulture.Name}";
+        }
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+                c.LangChoice(radioButton1.Text);
+            label3.Text = $"Current language: {Thread.CurrentThread.CurrentCulture.Name}";
+        }
+        private void Form2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+        //Synligheds styring til form 2
+        public bool VisibilityF2(bool b)
         {
             if (b)
             {
@@ -90,27 +108,17 @@ namespace Chatten
             return b;
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void Form2_Load(object sender, EventArgs e)
         {
-            if (radioButton2.Checked)
-                c.LangChoice(radioButton2.Text);
-            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
-        }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton1.Checked)
-                c.LangChoice(radioButton1.Text);
-            label1.Text = Thread.CurrentThread.CurrentCulture.Name;
         }
     }
-
     public class Program2 : MarshalByRefObject
     {
         public void Main(string[] args, Label L)
         {
             foreach (var item in args)
-                L.Text = $"{item} and is executed from this domain: {AppDomain.CurrentDomain.FriendlyName}";
+                L.Text = $"Your mail is: {item} and is found from this domain: {AppDomain.CurrentDomain.FriendlyName}";
         }
     }
 }

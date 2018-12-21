@@ -30,19 +30,19 @@ namespace Chatten
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertMailBesked(MailBesked instance);
-    partial void UpdateMailBesked(MailBesked instance);
-    partial void DeleteMailBesked(MailBesked instance);
-    partial void InsertLogin(Login instance);
-    partial void UpdateLogin(Login instance);
-    partial void DeleteLogin(Login instance);
     partial void InsertctTbl(ctTbl instance);
     partial void UpdatectTbl(ctTbl instance);
     partial void DeletectTbl(ctTbl instance);
+    partial void InsertLogin(Login instance);
+    partial void UpdateLogin(Login instance);
+    partial void DeleteLogin(Login instance);
+    partial void InsertMailBesked(MailBesked instance);
+    partial void UpdateMailBesked(MailBesked instance);
+    partial void DeleteMailBesked(MailBesked instance);
     #endregion
 		
 		public LinqMailDataContext() : 
-				base(global::Chatten.Properties.Settings.Default.zkkaMailConnectionString, mappingSource)
+				base(global::Chatten.Properties.Settings.Default.zkkaMailConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -71,11 +71,11 @@ namespace Chatten
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<MailBesked> MailBeskeds
+		public System.Data.Linq.Table<ctTbl> ctTbls
 		{
 			get
 			{
-				return this.GetTable<MailBesked>();
+				return this.GetTable<ctTbl>();
 			}
 		}
 		
@@ -87,89 +87,89 @@ namespace Chatten
 			}
 		}
 		
-		public System.Data.Linq.Table<ctTbl> ctTbls
+		public System.Data.Linq.Table<MailBesked> MailBeskeds
 		{
 			get
 			{
-				return this.GetTable<ctTbl>();
+				return this.GetTable<MailBesked>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MailBesked")]
-	public partial class MailBesked : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ctTbl")]
+	public partial class ctTbl : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _ChatNr;
 		
-		private string _Fra;
+		private string _Navn;
 		
 		private string _Besked;
 		
-		private string _BrugerMail;
+		private string _Email;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnFraChanging(string value);
-    partial void OnFraChanged();
+    partial void OnChatNrChanging(int value);
+    partial void OnChatNrChanged();
+    partial void OnNavnChanging(string value);
+    partial void OnNavnChanged();
     partial void OnBeskedChanging(string value);
     partial void OnBeskedChanged();
-    partial void OnBrugerMailChanging(string value);
-    partial void OnBrugerMailChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
     #endregion
 		
-		public MailBesked()
+		public ctTbl()
 		{
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChatNr", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ChatNr
 		{
 			get
 			{
-				return this._Id;
+				return this._ChatNr;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._ChatNr != value))
 				{
-					this.OnIdChanging(value);
+					this.OnChatNrChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._ChatNr = value;
+					this.SendPropertyChanged("ChatNr");
+					this.OnChatNrChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fra", DbType="NVarChar(50)")]
-		public string Fra
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Navn", DbType="VarChar(255)")]
+		public string Navn
 		{
 			get
 			{
-				return this._Fra;
+				return this._Navn;
 			}
 			set
 			{
-				if ((this._Fra != value))
+				if ((this._Navn != value))
 				{
-					this.OnFraChanging(value);
+					this.OnNavnChanging(value);
 					this.SendPropertyChanging();
-					this._Fra = value;
-					this.SendPropertyChanged("Fra");
-					this.OnFraChanged();
+					this._Navn = value;
+					this.SendPropertyChanged("Navn");
+					this.OnNavnChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Besked", DbType="NVarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Besked", DbType="VarChar(255)")]
 		public string Besked
 		{
 			get
@@ -189,22 +189,22 @@ namespace Chatten
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BrugerMail", DbType="NVarChar(50)")]
-		public string BrugerMail
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255)")]
+		public string Email
 		{
 			get
 			{
-				return this._BrugerMail;
+				return this._Email;
 			}
 			set
 			{
-				if ((this._BrugerMail != value))
+				if ((this._Email != value))
 				{
-					this.OnBrugerMailChanging(value);
+					this.OnEmailChanging(value);
 					this.SendPropertyChanging();
-					this._BrugerMail = value;
-					this.SendPropertyChanged("BrugerMail");
-					this.OnBrugerMailChanged();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
 				}
 			}
 		}
@@ -364,80 +364,80 @@ namespace Chatten
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ctTbl")]
-	public partial class ctTbl : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MailBesked")]
+	public partial class MailBesked : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ChatNr;
+		private int _Id;
 		
-		private string _Navn;
+		private string _Fra;
 		
 		private string _Besked;
 		
-		private string _Email;
+		private string _BrugerMail;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnChatNrChanging(int value);
-    partial void OnChatNrChanged();
-    partial void OnNavnChanging(string value);
-    partial void OnNavnChanged();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnFraChanging(string value);
+    partial void OnFraChanged();
     partial void OnBeskedChanging(string value);
     partial void OnBeskedChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
+    partial void OnBrugerMailChanging(string value);
+    partial void OnBrugerMailChanged();
     #endregion
 		
-		public ctTbl()
+		public MailBesked()
 		{
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChatNr", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ChatNr
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
 		{
 			get
 			{
-				return this._ChatNr;
+				return this._Id;
 			}
 			set
 			{
-				if ((this._ChatNr != value))
+				if ((this._Id != value))
 				{
-					this.OnChatNrChanging(value);
+					this.OnIdChanging(value);
 					this.SendPropertyChanging();
-					this._ChatNr = value;
-					this.SendPropertyChanged("ChatNr");
-					this.OnChatNrChanged();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Navn", DbType="VarChar(255)")]
-		public string Navn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fra", DbType="NVarChar(50)")]
+		public string Fra
 		{
 			get
 			{
-				return this._Navn;
+				return this._Fra;
 			}
 			set
 			{
-				if ((this._Navn != value))
+				if ((this._Fra != value))
 				{
-					this.OnNavnChanging(value);
+					this.OnFraChanging(value);
 					this.SendPropertyChanging();
-					this._Navn = value;
-					this.SendPropertyChanged("Navn");
-					this.OnNavnChanged();
+					this._Fra = value;
+					this.SendPropertyChanged("Fra");
+					this.OnFraChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Besked", DbType="VarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Besked", DbType="NVarChar(255)")]
 		public string Besked
 		{
 			get
@@ -457,22 +457,22 @@ namespace Chatten
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255)")]
-		public string Email
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BrugerMail", DbType="NVarChar(50)")]
+		public string BrugerMail
 		{
 			get
 			{
-				return this._Email;
+				return this._BrugerMail;
 			}
 			set
 			{
-				if ((this._Email != value))
+				if ((this._BrugerMail != value))
 				{
-					this.OnEmailChanging(value);
+					this.OnBrugerMailChanging(value);
 					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
+					this._BrugerMail = value;
+					this.SendPropertyChanged("BrugerMail");
+					this.OnBrugerMailChanged();
 				}
 			}
 		}

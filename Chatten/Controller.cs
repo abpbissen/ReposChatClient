@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Configuration;
+using System.Reflection;
+
 namespace Chatten
 {
     public class LoginResult:Form
@@ -54,7 +56,7 @@ namespace Chatten
                 }
                 if (cb)
                 {
-                    //HttpRuntime klassen bruges til at finde xml fil, uden brug af systemets stifinder(C:\)
+                    //Bruges til at finde xml fil, uden brug af systemets stifinder(C:\)
                     string MailFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MailFile.xml");
                     string MailFilePathCrypt = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MailFileCrypt.xml");
 
@@ -69,31 +71,38 @@ namespace Chatten
                     XElement newElementCrypt = new XElement("Message", new XElement("Mail_Body", strMail));
                     newElementCrypt.Save(MailFilePathCrypt);
                 }
+                errLbl.ForeColor = Color.Green;
+                errLbl.Text = "Mail send successfully";
             }
             catch (SmtpException)
             {
-                errLbl.Text = "Incorrect Password!";
+                errLbl.ForeColor = Color.Red;
+                errLbl.Text = "Incorrect Password, or mail!";
             }
+        }
+
+        public DataGridView Grid1(DataGridView gv1)
+        {
+            //Grid performance(anti flicker)
+            Type dgvType = gv1.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(gv1, true);
+            
+
+            //Binding til grids
+            gv1.DataSource = from x in db.ctTbls orderby x.ChatNr descending select new { x.ChatNr, x.Navn, x.Besked };
+            return gv1;
+        }
+        public DataGridView Grid2(DataGridView gv2, string fra)
+        {
+            Type dgvType2 = gv2.GetType();
+            PropertyInfo pi2 = dgvType2.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi2.SetValue(gv2, true);
+            gv2.DataSource = (from x in db.MailBeskeds where x.Fra != fra  orderby x.Id descending select new { x.Id, x.Fra, x.Besked }).Take(13);
+            return gv2;
+
         }
         //Linq 
-        public ctTbl EntityctTbl(string besked, string navn, string email)
-        {
-            //Table<TEntity> oprettes
-            ctTbl insertTbl = new ctTbl { Besked = besked, Navn = navn, Email = email };
-            //Tilføj den nye TEntity til ctTbls kollektionen
-            db.ctTbls.InsertOnSubmit(insertTbl);
-            //Prøver at tilføje ændringer
-            try
-            {
-                db.SubmitChanges();
-            }
-            catch (Exception)
-            {
-                //prøv igen
-                db.SubmitChanges();
-            }
-            return insertTbl;
-        }
         public void EntityDelete()
         {
             var delTable =
@@ -113,7 +122,25 @@ namespace Chatten
                 Debug.WriteLine(e);
             }
         }
-        public Login EntityLogin(string name, string password, string mail)
+        public ctTbl EntityctTbl(string besked, string navn, string email)
+        {
+            //Table<TEntity> oprettes
+            ctTbl insertTbl = new ctTbl { Besked = besked, Navn = navn, Email = email };
+            //Tilføj den nye TEntity til ctTbls kollektionen
+            db.ctTbls.InsertOnSubmit(insertTbl);
+            //Prøver at tilføje ændringer
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception)
+            {
+                //prøv igen
+                db.SubmitChanges();
+            }
+            return insertTbl;
+        }
+        public Login EntityLogin(string name, string password, string mail, Label errLbl)
         {
 
             Login insertLogin = new Login { Name = name, Password = Encrypt(password), Mail = mail };
@@ -121,10 +148,13 @@ namespace Chatten
             try
             {
                 db.SubmitChanges();
+                errLbl.ForeColor = Color.Green;
+                errLbl.Text = "User created";
             }
-            catch (Exception)
+            catch (SqlException)
             {
-                db.SubmitChanges();
+                errLbl.ForeColor = Color.Red;
+                errLbl.Text = "Failed to create user!";
             }
             return insertLogin;
         }
@@ -145,24 +175,31 @@ namespace Chatten
             }
             return insertMail;
         }
-            public LoginResult LoginGruppe(string Name, string password)
+        public LoginResult LoginGruppe(string Name, string password, Label errLbl)
         {
-            var logonBruger =
-            (from x in db.Logins where x.Name == Name && x.Password == Encrypt(password) select x).FirstOrDefault();
-            if (logonBruger != null && logonBruger.Name != "")
+            var logonBruger = (from x in db.Logins where x.Name == Name && x.Password == Encrypt(password) select x).FirstOrDefault();
+            try
             {
-                r.Mode = true;
-                r.LoginUser = logonBruger.Name;
-                r.LoginId = logonBruger.Id;
+                if (logonBruger != null && logonBruger.Name != "")
+                {
+                    r.Mode = true;
+                    r.LoginUser = logonBruger.Name;
+                    r.LoginId = logonBruger.Id;
+                }
+                else
+                {
+                    r.Mode = false;
+                    r.LoginUser = "";
+                    r.LoginId = 0;
+                }
             }
-            else
+            catch (SqlException)
             {
-                r.Mode = false;
-                r.LoginUser = "";
-                r.LoginId = 0;
+                errLbl.Text = "Login error";
             }
             return r;
         }
+
         //string metode til sprogvalg
         public string LangChoice(string sprog)
         {
@@ -203,6 +240,7 @@ namespace Chatten
             Aes aes = new AesManaged();
             aes.Key = passbytes.GetBytes(aes.KeySize / 8);
             aes.IV = passbytes.GetBytes(aes.BlockSize / 8);
+    
 
             CryptoStream cryptostream = new CryptoStream(memstream,
             aes.CreateEncryptor(), CryptoStreamMode.Write);

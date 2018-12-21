@@ -26,10 +26,21 @@ namespace Chatten.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=62.116.202.237;Initial Catalog=zkkaMail;User ID=sa;Password=Admin123")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=62.116.202.237;Initial Catalog=zkkaMail;User ID=SA;Password=Admin123")]
         public string zkkaMailConnectionString {
             get {
                 return ((string)(this["zkkaMailConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=62.116.202.237;Initial Catalog=zkkaMail;Persist Security Info=True;Us" +
+            "er ID=sa;Password=Admin123")]
+        public string zkkaMailConnectionString1 {
+            get {
+                return ((string)(this["zkkaMailConnectionString1"]));
             }
         }
     }
